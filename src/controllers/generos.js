@@ -3,10 +3,23 @@ const db = require('../database/connection');
 module.exports = {
     async listarGeneros(request, response) {
         try {
+
+
+            
+           const sql = `
+          SELECT gen_id, gen_nome, gen_icone FROM generos;
+
+      `;
+
+      const [rows] = await db.query(sql);
+
+      const nRegistros = rows.lenght;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Gêneros', 
-                dados: null
+                nRegistros,
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({

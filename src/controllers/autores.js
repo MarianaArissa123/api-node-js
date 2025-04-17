@@ -3,10 +3,22 @@ const db = require('../database/connection');
 module.exports = {
     async listarAutores(request, response) {
         try {
+
+           const sql = `
+                SELECT aut_id, aut_nome, aut_bio, aut_foto FROM autores;
+
+
+           `;
+
+           const [rows] = await db.query(sql);
+
+            const nRegistros = rows.lenght;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Autores', 
-                dados: null
+                nRegistros,
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({
