@@ -31,10 +31,28 @@ module.exports = {
     }, 
     async cadastrarGeneros(request, response) {
         try {
+
+            const {nome,icone} = request.body;
+
+            const sql =`
+            
+            INSERT INTO GENEROS (gen_nome, gen_icone)
+VALUES 
+('?', '?');
+
+`;
+
+const values =[nome,icone];
+const [result]= await bd.query(sql,values);
+const dados={
+    nome,
+    icone
+};
+           
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Gêneros', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({

@@ -30,10 +30,30 @@ module.exports = {
     }, 
     async cadastrarAutores(request, response) {
         try {
+
+            const {nome,bio,foto} = request.body;
+
+            const sql =`
+            
+            INSERT INTO AUTORES (aut_nome, aut_bio, aut_foto) VALUES
+
+('?', '?', '?'),
+
+`;
+
+const values =[nome,bio,foto];
+const [result]= await bd.query(sql,values);
+const dados={
+    nome,
+    bio,
+    foto
+};
+           
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Autores', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({
