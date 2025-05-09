@@ -12,7 +12,7 @@ module.exports = {
 
            const [rows] = await db.query(sql);
 
-            const nRegistros = rows.lenght;
+            const nRegistros = rows.length;
 
             return response.status(200).json({
                 sucesso: true, 
@@ -35,15 +35,15 @@ module.exports = {
 
             const sql =`
             
-            INSERT INTO AUTORES (aut_nome, aut_bio, aut_foto) VALUES
-
-('?', '?', '?'),
+            INSERT INTO AUTORES (aut_nome, aut_bio, aut_foto) 
+            VALUES (?,?,?)
 
 `;
 
 const values =[nome,bio,foto];
-const [result]= await bd.query(sql,values);
+const [result]= await db.query(sql,values);
 const dados={
+    id:result.insertId,
     nome,
     bio,
     foto

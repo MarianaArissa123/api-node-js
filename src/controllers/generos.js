@@ -1,95 +1,92 @@
-const db = require('../database/connection'); 
+const db = require('../database/connection');
 
 module.exports = {
     async listarGeneros(request, response) {
         try {
 
-
-            
-           const sql = `
+            const sql = `
           SELECT gen_id, gen_nome, gen_icone FROM generos;
 
       `;
 
-      const [rows] = await db.query(sql);
+            const [rows] = await db.query(sql);
 
-      const nRegistros = rows.lenght;
+            const nRegistros = rows.length;
 
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Lista de Gêneros', 
+                sucesso: true,
+                mensagem: 'Lista de Gêneros',
                 nRegistros,
                 dados: rows
             });
         } catch (error) {
             return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
                 dados: error.message
             });
         }
-    }, 
+    },
     async cadastrarGeneros(request, response) {
         try {
 
-            const {nome,icone} = request.body;
+            const { nome, icone } = request.body;
 
-            const sql =`
-            
+            const sql = `
             INSERT INTO GENEROS (gen_nome, gen_icone)
-VALUES 
-('?', '?');
+            VALUES (?, ?)`;
 
-`;
+            const values = [nome, icone];
 
-const values =[nome,icone];
-const [result]= await bd.query(sql,values);
-const dados={
-    nome,
-    icone
-};
-           
+            const [result] = await db.query(sql, values);
+
+            const dados = {
+                id:result.insertId,
+                nome,
+                icone
+            };
+
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Cadastro de Gêneros', 
+                sucesso: true,
+                mensagem: 'Cadastro de Gêneros',
                 dados: dados
             });
         } catch (error) {
             return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
                 dados: error.message
             });
         }
-    }, 
+    },
     async editarGeneros(request, response) {
         try {
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Alteração no cadastro de Gêneros', 
+                sucesso: true,
+                mensagem: 'Alteração no cadastro de Gêneros',
                 dados: null
             });
         } catch (error) {
             return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
                 dados: error.message
             });
         }
-    }, 
+    },
     async apagarGeneros(request, response) {
         try {
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Exclusão de Gêneros', 
+                sucesso: true,
+                mensagem: 'Exclusão de Gêneros',
                 dados: null
             });
         } catch (error) {
             return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
                 dados: error.message
             });
         }
-    }, 
+    },
 };  
