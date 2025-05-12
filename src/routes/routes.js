@@ -5,7 +5,7 @@ const autoresController = require('../controllers/autores');
 const generosController = require('../controllers/generos'); 
 
 router.get('/autores', autoresController.listarAutores); 
-router.post('/autores', autoresController.cadastrarAutores); 
+router.post('/autores/:id', autoresController.cadastrarAutores); 
 router.patch('/autores', autoresController.editarAutores); 
 router.delete('/autores', autoresController.apagarAutores); 
 

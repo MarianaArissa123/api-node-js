@@ -65,10 +65,40 @@ const dados={
     }, 
     async editarAutores(request, response) {
         try {
+            const {nome,bio,foto} = request.body;
+const {id}= request.params;
+            const sql =`
+            
+
+            UPDATE autores SET
+            aut_nome=?, aut_bio=?, aut_foto=?
+            WHERE aut_id=?
+
+            
+`;
+
+const values =[nome,bio,foto,id];
+const [result]= await db.query(sql,values);
+
+if(result.affectedRows===0){
+    return response.status(404).json({
+        sucesso:false,
+        mensagem:`Autor ${id} não encontrado!`,
+        dados: null
+    });
+}
+
+const dados={
+    id,
+    nome,
+    bio,
+    foto
+};
+          
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração no cadastro de Autores', 
-                dados: null
+                mensagem: 'Autor ${id} atualizado com sucesso!', 
+                dados
             });
         } catch (error) {
             return response.status(500).json({
