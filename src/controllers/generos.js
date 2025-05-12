@@ -61,10 +61,40 @@ module.exports = {
     },
     async editarGeneros(request, response) {
         try {
+
+
+            const { nome, icone} = request.body;
+            const { id } = request.params;
+            const sql = `
+            
+
+            UPDATE generos SET
+            gen_nome=?, gen_icone=?
+            WHERE gen_id=?
+
+            
+`;
+
+            const values = [nome, icone, id];
+            const [result] = await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Genero ${id} não encontrado!`,
+                    dados: null
+                });
+            }
+
+            const dados = {
+                id,
+                nome,
+                icone
+            };
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Alteração no cadastro de Gêneros',
-                dados: null
+                mensagem: `Genero ${id} atualizado com sucesso!`,
+                dados
             });
         } catch (error) {
             return response.status(500).json({
