@@ -41,7 +41,7 @@ module.exports = {
             const [result] = await db.query(sql, values);
 
             const dados = {
-                id:result.insertId,
+                id: result.insertId,
                 nome,
                 icone
             };
@@ -63,7 +63,7 @@ module.exports = {
         try {
 
 
-            const { nome, icone} = request.body;
+            const { nome, icone } = request.body;
             const { id } = request.params;
             const sql = `
             
@@ -106,9 +106,23 @@ module.exports = {
     },
     async apagarGeneros(request, response) {
         try {
+
+
+            const { id } = request.params;
+            const sql = `DELETE FROM generos WHERE gen_id=?`;
+            const values = [id];
+            const [result] = await db.query(sql, values);
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    sucesso: false,
+                    mensagem: `Genero ${gen_id} não encontrado!`,
+                    dados: null
+                });
+            }
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Exclusão de Gêneros',
+                mensagem: `Genero ${id} excluído com sucesso!`,
                 dados: null
             });
         } catch (error) {
